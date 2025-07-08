@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36221.1 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "gestionturnosmedicos.client", "gestionturnosmedicos.client\gestionturnosmedicos.client.esproj", "{B33CFCEC-AE05-89F6-63D6-F55BC8A0AB41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionTurnosMedicos.Server", "GestionTurnosMedicos.Server\GestionTurnosMedicos.Server.csproj", "{9C438DB7-9DD1-40CF-B827-35F9BB15746B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B33CFCEC-AE05-89F6-63D6-F55BC8A0AB41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B33CFCEC-AE05-89F6-63D6-F55BC8A0AB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B33CFCEC-AE05-89F6-63D6-F55BC8A0AB41}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B33CFCEC-AE05-89F6-63D6-F55BC8A0AB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B33CFCEC-AE05-89F6-63D6-F55BC8A0AB41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B33CFCEC-AE05-89F6-63D6-F55BC8A0AB41}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9C438DB7-9DD1-40CF-B827-35F9BB15746B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C438DB7-9DD1-40CF-B827-35F9BB15746B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C438DB7-9DD1-40CF-B827-35F9BB15746B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C438DB7-9DD1-40CF-B827-35F9BB15746B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F205D1C-2A39-40DA-A039-B6861904B64C}
+	EndGlobalSection
+EndGlobal
