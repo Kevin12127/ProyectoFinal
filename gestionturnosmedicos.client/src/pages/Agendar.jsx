@@ -33,7 +33,7 @@ export default function Agendar() {
         console.log('📦 Enviando datos al backend:', form);
 
         try {
-            const response = await axios.post('https://localhost:5001/api/Turnos', form, {
+            const response = await axios.post('https://localhost:7195/api/Turnos', form, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -91,7 +91,6 @@ export default function Agendar() {
                 />
                 <input
                     name="hora"
-                    placeholder="Hora (HH:mm)"
                     type="time"
                     value={form.hora}
                     onChange={handleChange}
@@ -104,4 +103,3 @@ export default function Agendar() {
         </div>
     );
 }
-
