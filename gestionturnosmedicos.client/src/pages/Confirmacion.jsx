@@ -6,9 +6,9 @@ export default function Confirmacion() {
 
     return (
         <div className="container">
-            <h2>Confirmación de Cita</h2>
+            <h2>ConfirmaciÃ³n de Cita</h2>
             <p><strong>Paciente:</strong> {turno.nombrePaciente}</p>
-            <p><strong>Cédula:</strong> {turno.cedula}</p>
+            <p><strong>CÃ©dula:</strong> {turno.cedula}</p>
             <p><strong>Especialidad:</strong> {turno.especialidad}</p>
             <p><strong>Fecha:</strong> {turno.fecha}</p>
             <p><strong>Hora:</strong> {turno.hora}</p>

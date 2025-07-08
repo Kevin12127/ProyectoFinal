@@ -1,7 +1,7 @@
 const especialistas = [
-    { nombre: 'Cardiología', horario: 'Lunes a Viernes 08:00 - 12:00' },
-    { nombre: 'Pediatría', horario: 'Martes y Jueves 10:00 - 14:00' },
-    { nombre: 'Dermatología', horario: 'Miércoles 09:00 - 13:00' },
+    { nombre: 'CardiologÃ­a', horario: 'Lunes a Viernes 08:00 - 12:00' },
+    { nombre: 'PediatrÃ­a', horario: 'Martes y Jueves 10:00 - 14:00' },
+    { nombre: 'DermatologÃ­a', horario: 'MiÃ©rcoles 09:00 - 13:00' },
 ];
 
 export default function Especialistas() {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Login({ setAutenticado }) {
     const [modo, setModo] = useState('login');
@@ -17,7 +18,7 @@ export default function Login({ setAutenticado }) {
 
     const guardarUsuario = () => {
         localStorage.setItem('usuarioRegistrado', JSON.stringify(form));
-        alert('Usuario registrado con éxito. Ahora puedes iniciar sesión.');
+        toast.success('Usuario registrado con Ã©xito. Ahora puedes iniciar sesiÃ³n.');
         setModo('login');
         setForm({ nombre: '', correo: '', contrasena: '' });
     };
@@ -31,9 +32,10 @@ export default function Login({ setAutenticado }) {
             form.contrasena === usuarioGuardado.contrasena
         ) {
             setAutenticado(true);
-            navigate('/home');
+            toast.success('SesiÃ³n iniciada correctamente');
+            setTimeout(() => navigate('/home'), 300); // âœ… espera breve para mostrar toast antes de redirigir
         } else {
-            alert('Credenciales incorrectas o usuario no registrado.');
+            toast.error('Credenciales incorrectas o usuario no registrado');
         }
     };
 
@@ -44,7 +46,7 @@ export default function Login({ setAutenticado }) {
 
     return (
         <div className="container">
-            <h2>{modo === 'registro' ? 'Registrarse' : 'Iniciar Sesión'}</h2>
+            <h2>{modo === 'registro' ? 'Registrarse' : 'Iniciar SesiÃ³n'}</h2>
             <form onSubmit={handleSubmit}>
                 {modo === 'registro' && (
                     <input
@@ -58,7 +60,7 @@ export default function Login({ setAutenticado }) {
                 <input
                     name="correo"
                     type="email"
-                    placeholder="Correo electrónico"
+                    placeholder="Correo electrÃ³nico"
                     value={form.correo}
                     onChange={handleChange}
                     required
@@ -66,7 +68,7 @@ export default function Login({ setAutenticado }) {
                 <input
                     name="contrasena"
                     type="password"
-                    placeholder="Contraseña"
+                    placeholder="ContraseÃ±a"
                     value={form.contrasena}
                     onChange={handleChange}
                     required
@@ -76,9 +78,9 @@ export default function Login({ setAutenticado }) {
                 </button>
             </form>
             <p>
-                {modo === 'registro' ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?'}{' '}
+                {modo === 'registro' ? 'Â¿Ya tienes cuenta?' : 'Â¿No tienes cuenta?'}{' '}
                 <button onClick={() => setModo(modo === 'registro' ? 'login' : 'registro')}>
-                    {modo === 'registro' ? 'Inicia sesión' : 'Regístrate'}
+                    {modo === 'registro' ? 'Inicia sesiÃ³n' : 'RegÃ­strate'}
                 </button>
             </p>
         </div>

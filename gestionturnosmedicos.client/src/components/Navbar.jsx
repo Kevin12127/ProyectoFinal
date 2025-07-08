@@ -1,25 +1,42 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-export default function Navbar() {
-  return (
-    <nav
-      style={{
-        width: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo oscuro transl�cido
-        padding: '10px 0',
-        textAlign: 'center',
-        backdropFilter: 'blur(6px)',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        zIndex: 1000
-      }}
-    >
-      <Link style={{ margin: '0 15px', color: '#f2f2f2', fontWeight: 'bold', textDecoration: 'none' }} to="/home">Inicio</Link>
-      <Link style={{ margin: '0 15px', color: '#f2f2f2', fontWeight: 'bold', textDecoration: 'none' }} to="/especialistas">Especialistas</Link>
-      <Link style={{ margin: '0 15px', color: '#f2f2f2', fontWeight: 'bold', textDecoration: 'none' }} to="/agendar">Agendar Cita</Link>
-      <Link style={{ margin: '0 15px', color: '#f2f2f2', fontWeight: 'bold', textDecoration: 'none' }} to="/ubicacion">Ubicaci�n</Link>
-      <Link style={{ margin: '0 15px', color: '#f2f2f2', fontWeight: 'bold', textDecoration: 'none' }} to="/chatbot">Chatbot</Link>
-    </nav>
-  );
+export default function Navbar({ autenticado, setAutenticado }) {
+    const navigate = useNavigate();
+
+    const cerrarSesion = () => {
+        localStorage.removeItem('usuarioRegistrado');
+        setAutenticado(false); // ✅ actualiza el estado global
+        toast.success('Sesión cerrada correctamente');
+        navigate('/'); // ✅ redirige directamente al inicio
+    };
+
+    return (
+        <nav style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '10px 20px',
+            backgroundColor: '#eeeeee'
+        }}>
+            <div>
+                <Link to="/" style={{ marginRight: '15px' }}>Inicio</Link>
+                <Link to="/especialistas" style={{ marginRight: '15px' }}>Especialistas</Link>
+                <Link to="/agendar" style={{ marginRight: '15px' }}>Agendar</Link>
+                <Link to="/ubicacion" style={{ marginRight: '15px' }}>Ubicación</Link>
+                <Link to="/chatbot">Chatbot</Link>
+            </div>
+            <div>
+                {autenticado ? (
+                    <button
+                        onClick={cerrarSesion}
+                        style={{ background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
+                    >
+                        Cerrar sesión
+                    </button>
+                ) : (
+                    <Link to="/login">Iniciar sesión</Link>
+                )}
+            </div>
+        </nav>
+    );
 }
