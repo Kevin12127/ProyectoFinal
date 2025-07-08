@@ -8,7 +8,7 @@ export default function Agendar() {
     cedula: '',
     especialidad: '',
     fecha: '',
-    hora: ''
+    hora: '' //yo k
   });
 
   const navigate = useNavigate();
