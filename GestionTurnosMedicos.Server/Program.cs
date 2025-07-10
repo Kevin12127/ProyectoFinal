@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,18 +7,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<TurnosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 🔐 CORS para permitir comunicación con React (localhost:5173)
+// 🔐 CORS para la app de React en localhost:5173
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp",
-        policy => policy.WithOrigins("https://localhost:52043", "http://localhost:5173")
-
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+    options.AddPolicy("AllowReactApp", policy =>
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials());
 });
 
+// 📦 Controladores y documentación Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -37,10 +39,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// 🔒 Redirección HTTPS
+// 🔐 HTTPS redirection
 app.UseHttpsRedirection();
 
-// 🎯 Habilita CORS para React
+// 🌐 Habilita CORS antes de controladores
 app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
@@ -48,4 +50,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

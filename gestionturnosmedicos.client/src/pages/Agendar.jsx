@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,12 +28,18 @@ export default function Agendar() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-
         setLoading(true);
-        console.log('📦 Enviando datos al backend:', form);
+
+        // ✅ Agregamos fechaRegistro al objeto enviado
+        const turnoData = {
+            ...form,
+            fechaRegistro: new Date().toISOString()
+        };
+
+        console.log('📦 Enviando datos al backend:', turnoData);
 
         try {
-            const response = await axios.post('https://localhost:7195/api/Turnos', form, {
+            const response = await axios.post('https://localhost:7195/api/Turnos', turnoData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -41,12 +47,12 @@ export default function Agendar() {
 
             if (response.status === 201 || response.status === 200) {
                 console.log('✅ Turno registrado exitosamente');
-                navigate('/confirmacion', { state: form });
+                navigate('/confirmacion', { state: turnoData });
             } else {
                 alert('⚠️ El servidor no respondió correctamente. Revisa la configuración.');
             }
         } catch (error) {
-            console.error('🛑 Error al agendar cita:', error);
+            console.error('🛑 Error al agendar cita:', error.message);
             alert('Error al agendar la cita. Verifica la conexión al servidor o los datos enviados.');
         } finally {
             setLoading(false);
@@ -54,9 +60,9 @@ export default function Agendar() {
     };
 
     return (
-        <div className="container">
-            <h2>Agendar Cita Médica</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="container" style={{ padding: '30px', maxWidth: '600px', margin: '0 auto' }}>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Agendar Cita Médica</h2>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <input
                     name="nombrePaciente"
                     placeholder="Nombre completo"
@@ -96,7 +102,7 @@ export default function Agendar() {
                     onChange={handleChange}
                     required
                 />
-                <button type="submit" disabled={loading}>
+                <button type="submit" disabled={loading} style={{ padding: '10px' }}>
                     {loading ? 'Agendando...' : 'Agendar'}
                 </button>
             </form>
