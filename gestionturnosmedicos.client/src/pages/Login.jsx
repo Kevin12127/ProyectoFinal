@@ -6,13 +6,14 @@ export default function Login({ setAutenticado }) {
     const [modo, setModo] = useState('login');
     const [form, setForm] = useState({
         nombre: '',
+        cedula: '',
         correo: '',
         contrasena: ''
     });
 
     const navigate = useNavigate();
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
@@ -20,7 +21,7 @@ export default function Login({ setAutenticado }) {
         localStorage.setItem('usuarioRegistrado', JSON.stringify(form));
         toast.success('Usuario registrado con éxito. Ahora puedes iniciar sesión.');
         setModo('login');
-        setForm({ nombre: '', correo: '', contrasena: '' });
+        setForm({ nombre: '', cedula: '', correo: '', contrasena: '' });
     };
 
     const iniciarSesion = () => {
@@ -28,43 +29,65 @@ export default function Login({ setAutenticado }) {
 
         if (
             usuarioGuardado &&
-            form.correo === usuarioGuardado.correo &&
+            form.cedula === usuarioGuardado.cedula &&
             form.contrasena === usuarioGuardado.contrasena
         ) {
             setAutenticado(true);
             toast.success('Sesión iniciada correctamente');
-            setTimeout(() => navigate('/home'), 300); // ✅ espera breve para mostrar toast antes de redirigir
+            setTimeout(() => navigate('/home'), 300);
         } else {
             toast.error('Credenciales incorrectas o usuario no registrado');
         }
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         modo === 'registro' ? guardarUsuario() : iniciarSesion();
     };
 
     return (
-        <div className="container">
-            <h2>{modo === 'registro' ? 'Registrarse' : 'Iniciar Sesión'}</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="container" style={{ maxWidth: '500px', margin: '0 auto', padding: '30px' }}>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
+                {modo === 'registro' ? 'Registrarse' : 'Iniciar Sesión'}
+            </h2>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {modo === 'registro' && (
+                    <>
+                        <input
+                            name="nombre"
+                            placeholder="Nombre completo"
+                            value={form.nombre}
+                            onChange={handleChange}
+                            required
+                        />
+                        <input
+                            name="cedula"
+                            placeholder="Número de cédula"
+                            value={form.cedula}
+                            onChange={handleChange}
+                            required
+                        />
+                        <input
+                            name="correo"
+                            type="email"
+                            placeholder="Correo electrónico"
+                            value={form.correo}
+                            onChange={handleChange}
+                            required
+                        />
+                    </>
+                )}
+
+                {modo === 'login' && (
                     <input
-                        name="nombre"
-                        placeholder="Nombre completo"
-                        value={form.nombre}
+                        name="cedula"
+                        placeholder="Número de cédula"
+                        value={form.cedula}
                         onChange={handleChange}
                         required
                     />
                 )}
-                <input
-                    name="correo"
-                    type="email"
-                    placeholder="Correo electrónico"
-                    value={form.correo}
-                    onChange={handleChange}
-                    required
-                />
+
                 <input
                     name="contrasena"
                     type="password"
@@ -77,9 +100,9 @@ export default function Login({ setAutenticado }) {
                     {modo === 'registro' ? 'Registrarse' : 'Ingresar'}
                 </button>
             </form>
-            <p>
+            <p style={{ marginTop: '20px', textAlign: 'center' }}>
                 {modo === 'registro' ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?'}{' '}
-                <button onClick={() => setModo(modo === 'registro' ? 'login' : 'registro')}>
+                <button onClick={() => setModo(modo === 'registro' ? 'login' : 'registro')} style={{ background: 'none', border: 'none', color: '#007bff', cursor: 'pointer' }}>
                     {modo === 'registro' ? 'Inicia sesión' : 'Regístrate'}
                 </button>
             </p>
