@@ -17,13 +17,6 @@ export default function Login({ setAutenticado }) {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const guardarUsuario = () => {
-        localStorage.setItem('usuarioRegistrado', JSON.stringify(form));
-        toast.success('Usuario registrado con éxito. Ahora puedes iniciar sesión.');
-        setModo('login');
-        setForm({ nombre: '', cedula: '', correo: '', contrasena: '' });
-    };
-
     const iniciarSesion = () => {
         const usuarioGuardado = JSON.parse(localStorage.getItem('usuarioRegistrado'));
 
@@ -42,7 +35,25 @@ export default function Login({ setAutenticado }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        modo === 'registro' ? guardarUsuario() : iniciarSesion();
+
+        if (modo === 'registro') {
+            const contraseña = form.contrasena;
+
+            // ✅ Validación estricta: mínimo 10 caracteres, 1 mayúscula, 1 número, 1 símbolo especial
+            const esValida = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{10,}$/.test(contraseña);
+
+            if (!esValida) {
+                toast.error('La contraseña debe tener al menos 10 caracteres, una mayúscula, un número y un símbolo especial.');
+                return;
+            }
+
+            localStorage.setItem('usuarioRegistrado', JSON.stringify(form));
+            toast.success('Usuario registrado con éxito. Ahora puedes iniciar sesión.');
+            setModo('login');
+            setForm({ nombre: '', cedula: '', correo: '', contrasena: '' });
+        } else {
+            iniciarSesion();
+        }
     };
 
     return (
@@ -96,6 +107,7 @@ export default function Login({ setAutenticado }) {
                     onChange={handleChange}
                     required
                 />
+
                 <button type="submit">
                     {modo === 'registro' ? 'Registrarse' : 'Ingresar'}
                 </button>

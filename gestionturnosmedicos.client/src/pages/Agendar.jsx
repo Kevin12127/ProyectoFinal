@@ -30,7 +30,6 @@ export default function Agendar() {
         e.preventDefault();
         setLoading(true);
 
-        // ✅ Agregamos fechaRegistro al objeto enviado
         const turnoData = {
             ...form,
             fechaRegistro: new Date().toISOString()
@@ -39,7 +38,7 @@ export default function Agendar() {
         console.log('📦 Enviando datos al backend:', turnoData);
 
         try {
-            const response = await axios.post('https://localhost:7195/api/Turnos', turnoData, {
+            const response = await axios.post('http://localhost:5252/api/Turnos', turnoData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -63,45 +62,16 @@ export default function Agendar() {
         <div className="container" style={{ padding: '30px', maxWidth: '600px', margin: '0 auto' }}>
             <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Agendar Cita Médica</h2>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <input
-                    name="nombrePaciente"
-                    placeholder="Nombre completo"
-                    value={form.nombrePaciente}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    name="cedula"
-                    placeholder="Cédula"
-                    value={form.cedula}
-                    onChange={handleChange}
-                    required
-                />
-                <select
-                    name="especialidad"
-                    value={form.especialidad}
-                    onChange={handleChange}
-                    required
-                >
+                <input name="nombrePaciente" placeholder="Nombre completo" value={form.nombrePaciente} onChange={handleChange} required />
+                <input name="cedula" placeholder="Cédula" value={form.cedula} onChange={handleChange} required />
+                <select name="especialidad" value={form.especialidad} onChange={handleChange} required>
                     <option value="">Seleccione una especialidad</option>
                     {especialidades.map((esp, i) => (
                         <option key={i} value={esp}>{esp}</option>
                     ))}
                 </select>
-                <input
-                    name="fecha"
-                    type="date"
-                    value={form.fecha}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    name="hora"
-                    type="time"
-                    value={form.hora}
-                    onChange={handleChange}
-                    required
-                />
+                <input name="fecha" type="date" value={form.fecha} onChange={handleChange} required />
+                <input name="hora" type="time" value={form.hora} onChange={handleChange} required />
                 <button type="submit" disabled={loading} style={{ padding: '10px' }}>
                     {loading ? 'Agendando...' : 'Agendar'}
                 </button>
