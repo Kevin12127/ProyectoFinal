@@ -1,24 +1,30 @@
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 public class Turno
 {
     public int Id { get; set; }
 
     [JsonPropertyName("nombrePaciente")]
-    public required string NombrePaciente { get; set; }
+    [Required]
+    public string NombrePaciente { get; set; } = string.Empty;
 
     [JsonPropertyName("cedula")]
-    public required string Cedula { get; set; }
+    [Required]
+    public string Cedula { get; set; } = string.Empty;
 
     [JsonPropertyName("especialidad")]
-    public required string Especialidad { get; set; }
+    [Required]
+    public string Especialidad { get; set; } = string.Empty;
 
     [JsonPropertyName("fecha")]
+    [Required]
     public DateTime Fecha { get; set; }
 
     [JsonPropertyName("hora")]
-    public required string Hora { get; set; }
+    [Required]
+    public string Hora { get; set; } = string.Empty;
 
     [JsonPropertyName("fechaRegistro")]
-    public DateTime FechaRegistro { get; set; }
+    public DateTime FechaRegistro { get; set; } = DateTime.Now;
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Chatbot() {
     const [mensajes, setMensajes] = useState([]);
@@ -11,6 +11,12 @@ export default function Chatbot() {
         '¿Qué especialidades tienen disponibles?',
         '¿Cómo puedo contactar con el centro médico?'
     ];
+
+    // Mensaje automático al cargar el chatbot
+    useEffect(() => {
+        const saludo = '👋 Hola soy Luna, tu agente virtual del Centro de Salud Guayllabamba. Te ayudaré en el agendamiento de tu cita médica. ¿En qué te puedo ayudar?';
+        setMensajes([{ tipo: 'bot', texto: saludo }]);
+    }, []);
 
     // Lógica mejorada de respuestas
     const responder = (texto) => {
@@ -74,14 +80,12 @@ export default function Chatbot() {
         <div className="container" style={{ padding: '20px' }}>
             <h2>Chatbot de asistencia</h2>
 
-            {/* Introducción al chatbot */}
             <p style={{ marginBottom: '20px', textAlign: 'justify', lineHeight: '1.5' }}>
                 Este chatbot está diseñado para ayudarte con preguntas frecuentes relacionadas al centro médico, como ubicación,
                 agendar citas, horarios de atención, especialidades disponibles y formas de contacto. Solo escribe tu consulta o
                 selecciona una de las preguntas sugeridas abajo para comenzar.
             </p>
 
-            {/* Preguntas frecuentes */}
             <div style={{ marginBottom: '25px' }}>
                 <h4 style={{ marginBottom: '12px', fontSize: '1.1em' }}>Preguntas frecuentes</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '600px' }}>
@@ -109,7 +113,6 @@ export default function Chatbot() {
                 </div>
             </div>
 
-            {/* Historial de mensajes */}
             <div
                 style={{
                     border: '1px solid #ccc',
@@ -123,12 +126,11 @@ export default function Chatbot() {
             >
                 {mensajes.map((m, i) => (
                     <p key={i} style={{ margin: '8px 0' }}>
-                        <strong>{m.tipo === 'usuario' ? 'Tú' : 'Bot'}:</strong> {m.texto}
+                        <strong>{m.tipo === 'usuario' ? 'Tú' : 'Luna'}:</strong> {m.texto}
                     </p>
                 ))}
             </div>
 
-            {/* Campo de entrada */}
             <input
                 value={entrada}
                 onChange={(e) => setEntrada(e.target.value)}

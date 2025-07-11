@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Agendar() {
     const [form, setForm] = useState({
@@ -11,8 +11,8 @@ export default function Agendar() {
         hora: ''
     });
 
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [citaConfirmada, setCitaConfirmada] = useState(null);
 
     const especialidades = [
         'Cardiología',
@@ -22,37 +22,42 @@ export default function Agendar() {
         'Ginecología'
     ];
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        const turnoData = {
+        const cita = {
             ...form,
             fechaRegistro: new Date().toISOString()
         };
 
-        console.log('📦 Enviando datos al backend:', turnoData);
-
         try {
-            const response = await axios.post('http://localhost:5252/api/Turnos', turnoData, {
+            const response = await axios.post('https://localhost:7195/api/Turnos', cita, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
 
             if (response.status === 201 || response.status === 200) {
-                console.log('✅ Turno registrado exitosamente');
-                navigate('/confirmacion', { state: turnoData });
+                setCitaConfirmada(cita);
+                toast.success('✅ Cita médica agendada correctamente');
+                setForm({
+                    nombrePaciente: '',
+                    cedula: '',
+                    especialidad: '',
+                    fecha: '',
+                    hora: ''
+                });
             } else {
-                alert('⚠️ El servidor no respondió correctamente. Revisa la configuración.');
+                toast.error('⚠️ La API no respondió correctamente');
             }
         } catch (error) {
-            console.error('🛑 Error al agendar cita:', error.message);
-            alert('Error al agendar la cita. Verifica la conexión al servidor o los datos enviados.');
+            console.error('Error al guardar cita:', error.message);
+            toast.error('🛑 No se pudo guardar la cita. Verifica conexión al backend.');
         } finally {
             setLoading(false);
         }
@@ -61,6 +66,7 @@ export default function Agendar() {
     return (
         <div className="container" style={{ padding: '30px', maxWidth: '600px', margin: '0 auto' }}>
             <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Agendar Cita Médica</h2>
+
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <input name="nombrePaciente" placeholder="Nombre completo" value={form.nombrePaciente} onChange={handleChange} required />
                 <input name="cedula" placeholder="Cédula" value={form.cedula} onChange={handleChange} required />
@@ -76,6 +82,18 @@ export default function Agendar() {
                     {loading ? 'Agendando...' : 'Agendar'}
                 </button>
             </form>
+
+            {citaConfirmada && (
+                <div style={{ marginTop: '40px', backgroundColor: '#f5f5f5', padding: '20px', borderRadius: '8px' }}>
+                    <h3>📋 Cita médica confirmada</h3>
+                    <p><strong>Paciente:</strong> {citaConfirmada.nombrePaciente}</p>
+                    <p><strong>Cédula:</strong> {citaConfirmada.cedula}</p>
+                    <p><strong>Especialidad:</strong> {citaConfirmada.especialidad}</p>
+                    <p><strong>Fecha:</strong> {citaConfirmada.fecha}</p>
+                    <p><strong>Hora:</strong> {citaConfirmada.hora}</p>
+                    <p><strong>Fecha de registro:</strong> {new Date(citaConfirmada.fechaRegistro).toLocaleString()}</p>
+                </div>
+            )}
         </div>
     );
 }

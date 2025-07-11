@@ -42,9 +42,11 @@ public class TurnosController : ControllerBase
         // Asignar fecha de registro si no viene desde el frontend
         turno.FechaRegistro = DateTime.Now;
 
+        // Guardar en base de datos
         _context.Turnos.Add(turno);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetTurnos), new { id = turno.Id }, turno);
+        // Confirmación exitosa
+        return Ok(turno); // ✅ Devuelve 200 OK con el turno registrado
     }
 }
