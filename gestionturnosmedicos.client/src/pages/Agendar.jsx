@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 export default function Agendar() {
@@ -22,6 +21,11 @@ export default function Agendar() {
         'Ginecología'
     ];
 
+    useEffect(() => {
+        const citaGuardada = localStorage.getItem('citaAgendada');
+        if (citaGuardada) setCitaConfirmada(JSON.parse(citaGuardada));
+    }, []);
+
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -35,32 +39,18 @@ export default function Agendar() {
             fechaRegistro: new Date().toISOString()
         };
 
-        try {
-            const response = await axios.post('https://localhost:7195/api/Turnos', cita, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+        localStorage.setItem('citaAgendada', JSON.stringify(cita));
+        setCitaConfirmada(cita);
+        toast.success('✅ Cita médica agendada correctamente');
 
-            if (response.status === 201 || response.status === 200) {
-                setCitaConfirmada(cita);
-                toast.success('✅ Cita médica agendada correctamente');
-                setForm({
-                    nombrePaciente: '',
-                    cedula: '',
-                    especialidad: '',
-                    fecha: '',
-                    hora: ''
-                });
-            } else {
-                toast.error('⚠️ La API no respondió correctamente');
-            }
-        } catch (error) {
-            console.error('Error al guardar cita:', error.message);
-            toast.error('🛑 No se pudo guardar la cita. Verifica conexión al backend.');
-        } finally {
-            setLoading(false);
-        }
+        setForm({
+            nombrePaciente: '',
+            cedula: '',
+            especialidad: '',
+            fecha: '',
+            hora: ''
+        });
+        setLoading(false);
     };
 
     return (
